@@ -1,6 +1,4 @@
-import { createMuiTheme } from 'material-ui/styles';
-
-const fontWeightMedium = 500;
+import { createMuiTheme } from '@material-ui/core/styles';
 
 const createTheme = () =>
   createMuiTheme({
