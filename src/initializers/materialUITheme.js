@@ -19,12 +19,6 @@ const createTheme = () =>
       },
     },
     typography: {
-      fontFamily:
-        'Avenir',
-      fontWeightMedium,
-      display1: {
-        fontWeight: fontWeightMedium,
-      },
       htmlFontSize: 17,
     },
   });

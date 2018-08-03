@@ -3,15 +3,12 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Routes from '../../router/routes';
-import '../../styles/index.css';
 
-import { withStyles } from 'material-ui/styles';
-import Grid from 'material-ui/Grid/Grid';
-import Snackbar from 'material-ui/Snackbar';
+import Grid from '@material-ui/core/Grid';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import locationChanged from '../../redux/actionCreators/navigationActionCreators';
 import { showSnackbar, hideSnackbar } from '../../redux/actionCreators/snackbarActionCreators';
-
 
 
 class AppContainer extends Component {
@@ -23,18 +20,33 @@ class AppContainer extends Component {
     });
   }
 
-
   render() {
     return (
       <Grid>
-
+        <div>
+          {Routes}
+          <Snackbar
+            autoHideDuration={4000}
+            open={Boolean(this.props.snackbarMessage)}
+            anchorOrigin={this.props.snackbarAnchorOrigin}
+            onClose={this.props.hideSnackbar}
+            message={this.props.snackbarMessage}
+            SnackbarContentProps={this.props.snackbarContentProps}
+          />
+        </div>
       </Grid>
     );
   }
 }
 
 AppContainer.propTypes = {
-
+  classes: PropTypes.object,
+  history: PropTypes.any,
+  onLocationChanged: PropTypes.func,
+  snackbarMessage: PropTypes.string,
+  hideSnackbar: PropTypes.func,
+  snackbarContentProps: PropTypes.object,
+  snackbarAnchorOrigin: PropTypes.object,
 };
 
 const mapStateToProps = ({ location, snackbar }) => ({
@@ -48,5 +60,5 @@ const mapDispatchToProps = dispatch => ({
   hideSnackbar: () => dispatch(hideSnackbar()),
 });
 
-const component = withStyles(styles)(AppContainer);
+const component = (AppContainer);
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(component));

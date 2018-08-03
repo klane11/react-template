@@ -13,6 +13,8 @@ const Instance = {
   getHeader() {
     const API_HEADER = {
       'Content-Type': 'application/json',
+      'X-Application-Key': process.env.REACT_APP_APPLICATION_KEY,
+      'X-Application-Secret': process.env.REACT_APP_APPLICATION_SECRET,
     };
     return API_HEADER;
   },
