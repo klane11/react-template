@@ -1,15 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { FormControl, FormHelperText } from '@material-ui/core/Form';
 import Input, { InputLabel } from '@material-ui/core/Input';
 import Grid from '@material-ui/core/Grid';
 
 
 const FormField = props => (
-  <Grid item xs={props.xs} sm={props.sm} md={props.md}>
-    <Grid container direction="row" justify="flex-start" alignItems="flex-start" style={props.style}>
-
-      <FormControl fullWidth margin="normal" required={props.required} disabled={props.disabled}>
+  <Grid 
+    item 
+    xs={props.xs}
+    sm={props.sm}
+    md={props.md}
+  >
+    <Grid 
+      container
+      direction='row'
+      justify='flex-start'
+      alignItems='flex-start'
+      style={props.style}
+    >
+      <FormControl
+        fullWidth
+        margin='normal'
+        required={props.required}
+        disabled={props.disabled}
+      >
         <InputLabel { ... props } >
           { props.label }
         </InputLabel>
@@ -18,7 +34,8 @@ const FormField = props => (
 
       <FormHelperText
         onClick={props.onClick}
-        className={props.className}>
+        className={props.className}
+      >
         {props.helptext}
       </FormHelperText>
 

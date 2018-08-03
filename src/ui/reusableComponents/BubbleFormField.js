@@ -38,9 +38,20 @@ class BubbleFormField extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <Grid item xs={this.props.xs} sm={this.props.sm} md={this.props.md}>
-        <Grid container direction="row" justify="flex-start" alignItems="flex-start" className={classes.container}>
-
+      <Grid 
+        item 
+        xs={this.props.xs} 
+        sm={this.props.sm} 
+        md={this.props.md}
+      >
+        <Grid 
+          container 
+          spacing={0}
+          direction='row' 
+          justify='flex-start' 
+          alignItems='flex-start' 
+          className={classes.container}
+        >
           <TextField
             fullWidth
             value={this.props.value}

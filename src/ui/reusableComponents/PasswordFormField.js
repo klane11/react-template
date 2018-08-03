@@ -29,13 +29,19 @@ class PasswordFormField extends Component {
     return (
       <Grid
         item
-        xs={this.props.xs}>
+        xs={this.props.xs}
+      >
         <Grid
           container
-          direction='row'
+          spacing={0}
           justify='flex-start'
-          alignItems='flex-start'>
-          <FormControl margin='normal' fullWidth disabled={this.props.disabled}>
+          alignItems='flex-start'
+        >
+          <FormControl 
+            margin='normal'
+            fullWidth
+            disabled={this.props.disabled}
+          >
             <InputLabel htmlFor={this.props.id}>{this.props.label}</InputLabel>
             <Input
               type={this.state.showPassword ? 'text' : 'password'}
@@ -50,9 +56,11 @@ class PasswordFormField extends Component {
               </InputAdornment>}
             />
           </FormControl>
+
           <FormHelperText>
             {this.props.helpertext}
           </FormHelperText>
+
         </Grid>
       </Grid>
     );

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import Select from '@material-ui/core/Select';
 
-
 const SelectFormField = props => {
   return (
     <Select
@@ -23,10 +22,8 @@ const SelectFormField = props => {
 
 SelectFormField.propTypes = {
   style: PropTypes.object,
-  required: PropTypes.bool,
   disabled: PropTypes.bool,
   disableUnderline: PropTypes.bool,
-  id: PropTypes.string,
   onChange: PropTypes.func,
   value: PropTypes.any,
   name: PropTypes.string,

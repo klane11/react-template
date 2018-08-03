@@ -29,6 +29,7 @@ class InfiniteScrollContainer extends Component {
       hasMore,
       height,
       items,
+      endMessage,
     } = this.props;
 
     const loader = (
@@ -46,7 +47,7 @@ class InfiniteScrollContainer extends Component {
 
     const endMessage = (
       <Typography className={classes.scrollMessage}>
-        End of Conversations
+        {endMessage}
       </Typography>
     );
 

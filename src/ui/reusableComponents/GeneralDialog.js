@@ -19,9 +19,9 @@ class GeneralDialog extends Component {
       <Dialog
         open={this.props.open}
         onClose={this.handleClose}
-        aria-labelledby="form-dialog-title">
-
-        <DialogTitle id="form-dialog-title">{this.props.title}</DialogTitle>
+        aria-labelledby='form-dialog-title'
+      >
+        <DialogTitle id='form-dialog-title'>{this.props.title}</DialogTitle>
 
         <DialogContent>
           <DialogContentText>
