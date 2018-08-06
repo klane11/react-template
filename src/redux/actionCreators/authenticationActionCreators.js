@@ -44,16 +44,17 @@ function onLogoutFailed(error) {
 }
 
 
-export function login(params) {
+export function login(email, password) {
   const data = {
-    email: params.email,
-    password: params.password,
+    email,
+    password,
   };
   return (dispatch) => {
     dispatch(onLoginStarted());
     return Instance.axiosInstance().post('/login', data)
       .then((response) => {
         dispatch(onLoginSucceeded(response));
+        return response;
       })
       .catch((error) => {
         dispatch(onLoginFailed(error.response.data));
@@ -63,12 +64,13 @@ export function login(params) {
 }
 
 
-export function logout(history) {
+export function logout() {
   return (dispatch) => {
     dispatch(onLogoutStarted());
     return Instance.axiosInstance().post('/logout', { access_token: '' })
       .then((response) => {
         dispatch(onLogoutSucceeded(response));
+        return response;
       })
       .catch((error) => {
         dispatch(onLogoutFailed(error));

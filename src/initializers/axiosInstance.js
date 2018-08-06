@@ -11,10 +11,10 @@ const Instance = {
   },
 
   getHeader() {
+    const accessToken = localStorage.getItem('access_token');
     const API_HEADER = {
       'Content-Type': 'application/json',
-      'X-Application-Key': process.env.REACT_APP_APPLICATION_KEY,
-      'X-Application-Secret': process.env.REACT_APP_APPLICATION_SECRET,
+      'X-Access-Token': accessToken,
     };
     return API_HEADER;
   },

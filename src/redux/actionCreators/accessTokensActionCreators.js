@@ -1,6 +1,9 @@
-import { getAccessTokenSucceeded, getAccessTokenStarted, getAccessTokenFailed } from '../actions/accessTokensActions';
+import { 
+  getAccessTokenSucceeded, 
+  getAccessTokenStarted, 
+  getAccessTokenFailed 
+} from '../actions/accessTokensActions';
 import Instance from '../../initializers/axiosInstance';
-import { setLocalStorageItem } from '../../utilities/localStorage';
 
 
 function onGetAccessTokenStarted() {
@@ -22,15 +25,16 @@ function onGetAccessTokenFailed(error) {
 
 export default function getAccessToken() {
   const headers = {
-    'X-Grayscale-Application-Secret': process.env.REACT_APP_GRAYSCALE_API_SECRET,
-    'X-Grayscale-Application-Key': process.env.REACT_APP_GRAYSCALE_API_KEY,
+    'Content-Type': 'application/json',
+    'X-Application-Key': process.env.REACT_APP_APPLICATION_KEY,
+    'X-Application-Secret': process.env.REACT_APP_APPLICATION_SECRET,
   };
 
   return (dispatch) => {
     dispatch(onGetAccessTokenStarted());
-    return Instance.axiosInstance().post('/access_tokens', {}, { headers })
+    return Instance.axiosInstance().post('/access_token', {}, { headers })
       .then((response) => {
-        setLocalStorageItem('access_token', response.data.access_token);
+        localStorage.setItem('access_token', response.data.access_token);
         dispatch(onGetAccessTokenSucceeded(response));
       })
       .catch((error) => {

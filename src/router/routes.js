@@ -5,13 +5,14 @@ import PublicRoute from './publicRoute';
 import AuthenticatedRoute from './authenticatedRoute';
 
 import LoginContainer from '../ui/containers/LoginContainer';
+import HomeContainer from '../ui/containers/HomeContainer';
 
 
 const routes = (
   <Switch>
 
-    <PublicRoute path='/' component={LoginContainer} />
-    {/* <AuthenticatedRoute path='/' component={} /> */}
+    <PublicRoute path='/login' component={LoginContainer} />
+    <AuthenticatedRoute path='/home' component={HomeContainer} />
 
     <Route path='/*' component={() => (<Redirect to='/'/>) } />
   </Switch>

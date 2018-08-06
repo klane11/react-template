@@ -11,13 +11,6 @@ import BubbleFormField from '../reusableComponents/BubbleFormField';
 
 
 const styles = {
-  container: {
-    marginTop: '20%',
-    boxShadow: '0px 0px 5px 2px rgba(50, 50, 50, 0.2)',
-    backgroundColor: 'rgba(255, 255, 255, 1)',
-    borderRadius: 7,
-    padding: 20,
-  },
   errorMessage: {
     height: 20,
     color: 'red',
@@ -34,7 +27,7 @@ const styles = {
     color: Constants.COLORS.PURPLE,
     fontSize: 16,
     fontWeight: 600,
-    borderRadius: 10,
+    borderRadius: 5,
   },
 };
 
@@ -42,7 +35,7 @@ const styles = {
 class LoginForm extends Component {
   render() {
     return (
-      <Grid item xs={11} sm={8} md={5} lg={4} style={styles.container}>
+      <Grid>
 
         <Grid>
           <BubbleFormField
@@ -63,6 +56,7 @@ class LoginForm extends Component {
 
         <Grid
           container
+          spacing={0}
           justify='flex-end'
           alignItems='center'
           style={styles.buttonContainer}

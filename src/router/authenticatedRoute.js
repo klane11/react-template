@@ -10,7 +10,7 @@ class AuthenticatedRoute extends React.Component {
         path={this.props.path}
         render={props => (
           !localStorage.getItem('is_logged_in') ?
-            <Redirect to='/signin' />
+            <Redirect to='/login' />
           :
             <this.props.component {...props} />
         )}

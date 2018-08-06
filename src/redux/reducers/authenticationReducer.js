@@ -51,7 +51,7 @@ function onLoginFailed(state, error) {
   return update(state, {
     $merge: {
       isLoading: false,
-      errorMessage,
+      signInError: errorMessage,
     },
   });
 }
@@ -90,7 +90,6 @@ function onUpdateAuthenticationStore(state, data) {
     },
   });
 }
-
 
 
 const functionMap = {

@@ -6,7 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 import Regex from '../../utilities/regex';
-import { updateAuthenticationRedux } from '../../redux/actionCreators/authenticationActionCreators';
+import getAccessToken from '../../redux/actionCreators/accessTokensActionCreators';
+import { updateAuthenticationRedux, login } from '../../redux/actionCreators/authenticationActionCreators';
 import LoginForm from '../components/LoginForm';
 
 
@@ -16,10 +17,21 @@ const styles = {
     minWidth: '100%',
     background: '#f9f5f8',
   },
+  loginForm: {
+    marginTop: '15%',
+    boxShadow: '0px 0px 5px 2px rgba(50, 50, 50, 0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    borderRadius: 7,
+    padding: 20,
+  },
 };
 
 
-class SignInContainer extends Component {
+class LoginContainer extends Component {
+  componentDidMount = () => {
+    this.props.getAccessToken();
+  }
+
   handleSignIn = () => {
     if (!this.validateAndHandleError()) {
       const params = {
@@ -30,9 +42,15 @@ class SignInContainer extends Component {
     }
   }
 
-  signInUser = () => {
-    const { history } = this.props;
-    history.push('/home');
+  signInUser = async () => {
+    try {
+      const { history, email, password, loginUser } = this.props;
+      await loginUser(email, password);
+      localStorage.setItem('is_logged_in', true);
+      history.push('/home');
+    } catch (err) {
+      throw err;
+    }
   }
 
   validateAndHandleError = () => {
@@ -71,20 +89,22 @@ class SignInContainer extends Component {
           justify='center'
           onKeyPress={this.handleKeyEnterPress}
         >
-          <LoginForm
-            {...other}
-            handleChange={this.handleChange}
-            handleSignIn={this.handleSignIn}
-            onKeyPress={this.handleKeyEnterPress}
-            handleForgotPasswordDialog={this.handleForgotPasswordDialog}
-          />
+          <Grid item xs={11} sm={8} md={5} lg={4} style={styles.loginForm}>
+            <LoginForm
+              {...other}
+              handleChange={this.handleChange}
+              handleSignIn={this.handleSignIn}
+              onKeyPress={this.handleKeyEnterPress}
+              handleForgotPasswordDialog={this.handleForgotPasswordDialog}
+            />
+          </Grid>
         </Grid>
       </div>
     );
   }
 }
 
-SignInContainer.propTypes = {
+LoginContainer.propTypes = {
   classes: PropTypes.object,
 };
 
@@ -94,7 +114,9 @@ const mapStateToProps = ({ authentication }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   updateAuthenticationStore: (key, value) => dispatch(updateAuthenticationRedux(key, value)),
+  loginUser: (email, password) => dispatch(login(email, password)),
+  getAccessToken: () => dispatch(getAccessToken()),
 });
 
-const component = withStyles(styles)(SignInContainer);
+const component = withStyles(styles)(LoginContainer);
 export default connect(mapStateToProps, mapDispatchToProps)(component);
