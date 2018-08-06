@@ -7,6 +7,7 @@ import {
   LOGOUT_STARTED,
   LOGOUT_SUCCEEDED,
   LOGOUT_FAILED,
+  ON_UPDATE_AUTHENTICATION_STORE,
 } from '../actions/authenticationActions';
 import errorHandler from '../../utilities/errorHandler';
 
@@ -18,7 +19,8 @@ const INITIAL_STATE = {
   firstName: '',
   lastName: '',
   email: '',
-  temp_password_consumed: false,
+  password: '',
+  signInError: '',
 };
 
 
@@ -40,8 +42,6 @@ function onLoginSucceeded(state, response) {
       firstName: data.first_name,
       lastName: data.last_name,
       email: data.email,
-      tempPasswordConsumed: data.temp_password_consumed,
-      companyId: data.company_id,
     },
   });
 }
@@ -81,6 +81,16 @@ function onLogoutFailed(state) {
   });
 }
 
+function onUpdateAuthenticationStore(state, data) {
+  const key = Object.keys(data.data)[0];
+  return update(state, {
+    $merge: {
+      [key]: data.data[key],
+    },
+  });
+}
+
+
 
 const functionMap = {
   [LOGIN_STARTED]: onLoginStarted,
@@ -90,6 +100,8 @@ const functionMap = {
   [LOGOUT_STARTED]: onLogoutStarted,
   [LOGOUT_SUCCEEDED]: onLogoutSucceeded,
   [LOGOUT_FAILED]: onLogoutFailed,
+
+  [ON_UPDATE_AUTHENTICATION_STORE]: onUpdateAuthenticationStore,
 };
 
 export default reducerFactory(functionMap, INITIAL_STATE, 'authentication');

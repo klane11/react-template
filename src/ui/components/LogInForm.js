@@ -31,7 +31,7 @@ const styles = {
   },
 };
 
-class LogInForm extends Component {
+class LoginForm extends Component {
   render() {
     const { classes, state } = this.props;
     return (
@@ -74,7 +74,7 @@ class LogInForm extends Component {
   }
 }
 
-LogInForm.propTypes = {
+LoginForm.propTypes = {
   classes: PropTypes.object,
   state: PropTypes.object,
   handleForgotPasswordDialog: PropTypes.func,
@@ -87,5 +87,5 @@ const mapStateToProps = state => ({
   errorMessage: state.authentication.errorMessage,
 });
 
-const component = withStyles(styles)(LogInForm);
+const component = withStyles(styles)(LoginForm);
 export default connect(mapStateToProps, null)(component);

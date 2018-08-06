@@ -5,10 +5,9 @@ import {
   logoutStarted,
   logoutSucceeded,
   logoutFailed,
+  onUpdateAuthenticationStore,
 } from '../actions/authenticationActions';
 import Instance from '../../initializers/axiosInstance';
-import { setIsLoggedIn, clearLocalStorage, getSavedAccessToken, setUserInformation } from '../../utilities/localStorage';
-import getAccessToken from '../actionCreators/accessTokensActionCreators';
 
 
 function onLoginStarted() {
@@ -45,7 +44,7 @@ function onLogoutFailed(error) {
 }
 
 
-export function login(params, history) {
+export function login(params) {
   const data = {
     email: params.email,
     password: params.password,
@@ -54,52 +53,35 @@ export function login(params, history) {
     dispatch(onLoginStarted());
     return Instance.axiosInstance().post('/login', data)
       .then((response) => {
-        setIsLoggedIn();
-        setUserInformation(response.data.data);
         dispatch(onLoginSucceeded(response));
       })
       .catch((error) => {
-        handleLoginErrors(error, dispatch, data, history);
         dispatch(onLoginFailed(error.response.data));
         throw error;
       });
   };
 }
 
-async function retreiveNewAccessTokenAndLogin(dispatch, data, history) {
-  try {
-    await dispatch(getAccessToken());
-    await dispatch(login(data));
-    history.push('/analytics');
-  } catch (error) {
-    throw error;
-  }
-}
-
-function handleLoginErrors(error, dispatch, data, history) {
-  if (error.response.data.status === 2000) {
-    clearLocalStorage();
-    dispatch(login(data, history));
-  } else if (error.response.data.status === 2002) {
-    retreiveNewAccessTokenAndLogin(dispatch, data, history);
-  }
-}
-
 
 export function logout(history) {
-  const accessToken = getSavedAccessToken();
   return (dispatch) => {
     dispatch(onLogoutStarted());
-    return Instance.axiosInstance().post('/logout', { access_token: accessToken })
+    return Instance.axiosInstance().post('/logout', { access_token: '' })
       .then((response) => {
-        clearLocalStorage();
         dispatch(onLogoutSucceeded(response));
       })
       .catch((error) => {
-        clearLocalStorage();
         dispatch(onLogoutFailed(error));
-        history.push('/sign_in');
         throw error;
       });
+  };
+}
+
+
+export function updateAuthenticationRedux(name, value) {
+  const data = {};
+  data[name] = value;
+  return (dispatch) => {
+    dispatch(onUpdateAuthenticationStore(data));
   };
 }

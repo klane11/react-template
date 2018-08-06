@@ -3,12 +3,24 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Routes from '../../router/routes';
+import CSS from '../../styles/App.css';
 
 import Grid from '@material-ui/core/Grid';
 import Snackbar from '@material-ui/core/Snackbar';
 
 import locationChanged from '../../redux/actionCreators/navigationActionCreators';
 import { showSnackbar, hideSnackbar } from '../../redux/actionCreators/snackbarActionCreators';
+
+
+const styles = {
+  appContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+  },
+}
 
 
 class AppContainer extends Component {
@@ -22,18 +34,16 @@ class AppContainer extends Component {
 
   render() {
     return (
-      <Grid>
-        <div>
-          {Routes}
-          <Snackbar
-            autoHideDuration={4000}
-            open={Boolean(this.props.snackbarMessage)}
-            anchorOrigin={this.props.snackbarAnchorOrigin}
-            onClose={this.props.hideSnackbar}
-            message={this.props.snackbarMessage}
-            SnackbarContentProps={this.props.snackbarContentProps}
-          />
-        </div>
+      <Grid style={styles.appContainer}>
+        {Routes}
+        <Snackbar
+          autoHideDuration={4000}
+          onClose={this.props.hideSnackbar}
+          message={this.props.snackbarMessage}
+          open={Boolean(this.props.snackbarMessage)}
+          anchorOrigin={this.props.snackbarAnchorOrigin}
+          SnackbarContentProps={this.props.snackbarContentProps}
+        />
       </Grid>
     );
   }
