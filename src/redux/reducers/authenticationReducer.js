@@ -21,6 +21,7 @@ const INITIAL_STATE = {
   email: '',
   password: '',
   signInError: '',
+  validateError: '',
 };
 
 

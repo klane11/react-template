@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -10,7 +9,15 @@ import Typography from '@material-ui/core/Typography/Typography';
 import Constants from '../../initializers/constants';
 import BubbleFormField from '../reusableComponents/BubbleFormField';
 
+
 const styles = {
+  container: {
+    marginTop: '20%',
+    boxShadow: '0px 0px 5px 2px rgba(50, 50, 50, 0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    borderRadius: 7,
+    padding: 20,
+  },
   errorMessage: {
     height: 20,
     color: 'red',
@@ -23,46 +30,45 @@ const styles = {
   },
   button: {
     padding: '10px 15px',
-    border: `1.5px solid ${Constants.COLORS.BRIGHT_BLUE}`,
-    color: Constants.COLORS.BRIGHT_BLUE,
+    border: `1.5px solid ${Constants.COLORS.PURPLE}`,
+    color: Constants.COLORS.PURPLE,
     fontSize: 16,
     fontWeight: 600,
     borderRadius: 10,
   },
 };
 
+
 class LoginForm extends Component {
   render() {
-    const { classes, state } = this.props;
     return (
-      <Grid>
+      <Grid item xs={11} sm={8} md={5} lg={4} style={styles.container}>
 
         <Grid>
           <BubbleFormField
             label='Email'
-            value={state.email}
+            value={this.props.email}
             onChange={this.props.handleChange('email')}
           />
           <BubbleFormField
             label='Password'
             type='password'
-            value={state.password}
+            value={this.props.password}
             onChange={this.props.handleChange('password')}
           />
-          <Typography className={classes.errorMessage}>
-            {state.signInError || this.props.errorMessage}
+          <Typography style={styles.errorMessage}>
+            {this.props.signInError || this.props.validateError}
           </Typography>
         </Grid>
 
         <Grid
           container
-          display='flex'
           justify='flex-end'
           alignItems='center'
-          className={classes.buttonContainer}
+          style={styles.buttonContainer}
         >
           <Button
-            className={classes.button}
+            style={styles.button}
             onClick={this.props.handleSignIn}
           >
             Sign In
@@ -76,16 +82,14 @@ class LoginForm extends Component {
 
 LoginForm.propTypes = {
   classes: PropTypes.object,
-  state: PropTypes.object,
   handleForgotPasswordDialog: PropTypes.func,
   handleSignIn: PropTypes.func,
   handleChange: PropTypes.func,
-  errorMessage: PropTypes.string,
+  validateError: PropTypes.string,
+  signInError: PropTypes.string,
+  email: PropTypes.string,
+  password: PropTypes.string,
 };
 
-const mapStateToProps = state => ({
-  errorMessage: state.authentication.errorMessage,
-});
-
 const component = withStyles(styles)(LoginForm);
-export default connect(mapStateToProps, null)(component);
+export default (component);

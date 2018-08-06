@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 import Regex from '../../utilities/regex';
+import { updateAuthenticationRedux } from '../../redux/actionCreators/authenticationActionCreators';
 import LoginForm from '../components/LoginForm';
 
 
@@ -14,46 +16,34 @@ const styles = {
     minWidth: '100%',
     background: '#f9f5f8',
   },
-  login: {
-    boxShadow: '0px 0px 5px 2px rgba(50, 50, 50, 0.2)',
-    backgroundColor: 'rgba(255, 255, 255, 1)',
-    borderRadius: 5,
-    padding: 20,
-  },
 };
 
 
 class SignInContainer extends Component {
-  state = {
-    email: '',
-    password: '',
-    signInError: '',
-  }
   handleSignIn = () => {
     if (!this.validateAndHandleError()) {
       const params = {
-        password: this.state.password,
-        email: this.state.email,
+        password: this.props.password,
+        email: this.props.email,
       };
       this.signInUser(params);
     }
   }
 
-  signInUser = async (params) => {
-    const { history, signIn } = this.props;
-    await signIn(params, history);
-    history.push('/analytics');
+  signInUser = () => {
+    const { history } = this.props;
+    history.push('/home');
   }
 
   validateAndHandleError = () => {
     let errorMessage;
-    if (!Regex.isEmail(this.state.email)) {
+    if (!Regex.isEmail(this.props.email)) {
       errorMessage = 'Please enter a valid email address';
     }
-    if (this.state.email === '' || this.state.password === '') {
+    if (this.props.email === '' || this.props.password === '') {
       errorMessage = 'All fields must be filled out';
     }
-    this.setState({ signInError: errorMessage });
+    this.updateAuthStore('signInError', errorMessage);
     return errorMessage;
   }
 
@@ -64,11 +54,15 @@ class SignInContainer extends Component {
   }
 
   handleChange = name => (event) => {
-    this.setState({ [name]: event.target.value });
+    this.updateAuthStore([name], event.target.value);
+  }
+
+  updateAuthStore = (key, value) => {
+    this.props.updateAuthenticationStore(key, value);
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, ...other } = this.props;
     return (
       <div className={classes.background}>
         <Grid
@@ -77,18 +71,13 @@ class SignInContainer extends Component {
           justify='center'
           onKeyPress={this.handleKeyEnterPress}
         >
-
-          <Grid item xs={11} sm={8} md={5} lg={4} className={classes.login}>
-
-            <LoginForm
-              state={this.state}
-              handleChange={this.handleChange}
-              handleSignIn={this.handleSignIn}
-              onKeyPress={this.handleKeyEnterPress}
-              handleForgotPasswordDialog={this.handleForgotPasswordDialog}
-            />
-
-          </Grid>
+          <LoginForm
+            {...other}
+            handleChange={this.handleChange}
+            handleSignIn={this.handleSignIn}
+            onKeyPress={this.handleKeyEnterPress}
+            handleForgotPasswordDialog={this.handleForgotPasswordDialog}
+          />
         </Grid>
       </div>
     );
@@ -99,6 +88,13 @@ SignInContainer.propTypes = {
   classes: PropTypes.object,
 };
 
+const mapStateToProps = ({ authentication }) => ({
+  ...authentication
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateAuthenticationStore: (key, value) => dispatch(updateAuthenticationRedux(key, value)),
+});
 
 const component = withStyles(styles)(SignInContainer);
-export default (component);
+export default connect(mapStateToProps, mapDispatchToProps)(component);
