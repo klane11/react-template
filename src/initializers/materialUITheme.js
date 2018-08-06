@@ -1,6 +1,4 @@
-import { createMuiTheme } from 'material-ui/styles';
-
-const fontWeightMedium = 500;
+import { createMuiTheme } from '@material-ui/core/styles';
 
 const createTheme = () =>
   createMuiTheme({
@@ -19,12 +17,6 @@ const createTheme = () =>
       },
     },
     typography: {
-      fontFamily:
-        'Avenir',
-      fontWeightMedium,
-      display1: {
-        fontWeight: fontWeightMedium,
-      },
       htmlFontSize: 17,
     },
   });

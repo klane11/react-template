@@ -11,8 +11,10 @@ const Instance = {
   },
 
   getHeader() {
+    const accessToken = localStorage.getItem('access_token');
     const API_HEADER = {
       'Content-Type': 'application/json',
+      'X-Access-Token': accessToken,
     };
     return API_HEADER;
   },
